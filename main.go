@@ -58,15 +58,15 @@ func renderTemplate(w http.ResponseWriter, r *http.Request) {
 	if byteType == "" {
 		log.Fatal("Byte type is required")
 	}
-	var divider int
+	var multiplier int
 	switch byteType {
 	case "MB":
-		divider = 1 << 20
+		multiplier = 1 << 20
 	default:
-		divider = 1 << 10
+		multiplier = 1 << 10
 	}
 
-	buf := make([]byte, sizeInt/2*divider)
+	buf := make([]byte, sizeInt/2*multiplier)
 
 	t.Execute(w, FormResponse{
 		true,
