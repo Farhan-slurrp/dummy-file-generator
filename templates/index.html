@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>All articles</title>
+    <style>
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .file-size {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 0.3rem;
+      }
+      .file-size > input {
+        width: 60vw;
+      }
+      .row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .success {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        margin-top: 2rem;
+      }
+      body {
+        color: white;
+        background: #100133;
+      }
+      button {
+        all: unset;
+        max-width: 40vw;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+        box-shadow: none;
+        font-weight: 500;
+        outline: none;
+        padding: 0.4rem;
+        border-radius: 4rem;
+      }
+      input {
+        all: unset;
+        border: 1px solid white;
+        padding: 0.3rem;
+        border-radius: 0.3rem;
+      }
+      option {
+        background: #100133;
+      }
+      select {
+        color: white;
+        padding: 0.3rem;
+        border: 1px solid white;
+        background: transparent;
+        border-radius: 0.3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Dummy File Generator</h3>
+    <form method="POST" class="form">
+      <div class="row">
+        <label for="filename">File name:</label>
+        <input
+          type="text"
+          id="filename"
+          name="filename"
+          autocomplete="off"
+          required
+        />
+      </div>
+      <div class="row">
+        <label for="extension">Extension:</label>
+        <select id="extension" name="extension" required>
+          <option value="text/csv">CSV</option>
+          <option value="text/plain">TXT</option>
+          <option value="application/json">JSON</option>
+          <option value="image/jpeg">JPG</option>
+          <option value="image/png">PNG</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="size">File Size:</label>
+        <div class="file-size">
+          <input id="size" name="size" type="number" required />
+          <select id="byteType" name="byteType" required>
+            <option value="KB">KB</option>
+            <option value="MB">MB</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit">Generate</button>
+    </form>
+    {{if .Success}}
+    <div class="success">
+      <span>File created succesfully!</span>
+      <button onclick="downloadFile()">Download</button>
+    </div>
+    {{end}}
+  </body>
+  <script>
+    function downloadFile() {
+      const byte = "{{ .File }}";
+      const blob = new Blob([byte], { type: "{{ .Extension }}" });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = "{{ .Filename }}";
+      link.click();
+    }
+  </script>
+</html>
