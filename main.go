@@ -52,7 +52,7 @@ func renderTemplate(w http.ResponseWriter, r *http.Request) {
 	}
 	sizeInt, err := strconv.Atoi(size)
 	if err != nil {
-		log.Fatal("Failed to parse the size to float")
+		log.Fatal("Failed to parse the size to int")
 	}
 	byteType := r.FormValue("byteType")
 	if byteType == "" {
