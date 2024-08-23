@@ -18,7 +18,7 @@ type FormSuccessResponse struct {
 }
 
 type FormErrorResponse struct {
-	Success  bool
+	Failed   bool
 	ErrorMsg string
 }
 

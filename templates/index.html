@@ -103,7 +103,7 @@
       <span>File created succesfully!</span>
       <button onclick="downloadFile()">Download</button>
     </div>
-    {{ else }}
+    {{ end }} {{ if .Failed }}
     <p>{{ .ErrorMsg }}</p>
     {{ end }}
   </body>
