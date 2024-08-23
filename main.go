@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -38,9 +37,7 @@ func main() {
 	}
 	err = http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
 
-	if errors.Is(err, http.ErrServerClosed) {
-		fmt.Printf("Server closed\n")
-	} else if err != nil {
+	if err != nil {
 		fmt.Printf("Error starting server: %s\n", err)
 		os.Exit(1)
 	}
