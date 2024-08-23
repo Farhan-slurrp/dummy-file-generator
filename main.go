@@ -57,21 +57,21 @@ func renderTemplate(w http.ResponseWriter, r *http.Request) {
 	}
 	sizeInt, err := strconv.Atoi(size)
 	if err != nil {
-		renderWithError(w, t, "Failed to parse the size to float")
+		renderWithError(w, t, "Failed to parse the size to int")
 	}
 	byteType := r.FormValue("byteType")
 	if byteType == "" {
 		renderWithError(w, t, "Byte type is required")
 	}
-	var divider int
+	var multiplier int
 	switch byteType {
 	case "MB":
-		divider = 1 << 20
+		multiplier = 1 << 20
 	default:
-		divider = 1 << 10
+		multiplier = 1 << 10
 	}
 
-	buf := make([]byte, sizeInt/2*divider)
+	buf := make([]byte, sizeInt/2*multiplier)
 
 	t.Execute(w, FormSuccessResponse{
 		true,
