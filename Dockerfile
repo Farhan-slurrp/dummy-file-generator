@@ -1,6 +1,6 @@
 FROM golang:1.21.6 as base
 
-WORKDIR / 
+WORKDIR /dummy-file-generator
 
 COPY templates templates
 COPY vendor vendor
@@ -12,6 +12,10 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOFLAGS=-mod=vendor go build -o main .
 
 FROM alpine:latest as final
 
+WORKDIR /
+
+COPY --from=base /dummy-file-generator/main .
+
 EXPOSE 8080
 
-ENTRYPOINT ["./"]
+ENTRYPOINT ["./dummy-file-generator"]
