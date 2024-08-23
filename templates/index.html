@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>All articles</title>
+    <title>Dummy file generator</title>
     <style>
       .form {
         display: flex;
@@ -29,6 +29,7 @@
         margin-top: 2rem;
       }
       body {
+        font-family: Arial, Helvetica, sans-serif;
         color: white;
         background: #100133;
       }
@@ -97,12 +98,14 @@
       </div>
       <button type="submit">Generate</button>
     </form>
-    {{if .Success}}
+    {{ if .Success }}
     <div class="success">
       <span>File created succesfully!</span>
       <button onclick="downloadFile()">Download</button>
     </div>
-    {{end}}
+    {{ else }}
+    <p>{{ .ErrorMsg }}</p>
+    {{ end }}
   </body>
   <script>
     function downloadFile() {

@@ -10,11 +10,16 @@ import (
 	"text/template"
 )
 
-type FormResponse struct {
+type FormSuccessResponse struct {
 	Success   bool
 	File      []byte
 	Filename  string
 	Extension string
+}
+
+type FormErrorResponse struct {
+	Success  bool
+	ErrorMsg string
 }
 
 func main() {
@@ -40,23 +45,23 @@ func renderTemplate(w http.ResponseWriter, r *http.Request) {
 
 	filename := r.FormValue("filename")
 	if filename == "" {
-		log.Fatal("Filename is required")
+		renderWithError(w, t, "Rilename is required")
 	}
 	extension := r.FormValue("extension")
 	if extension == "" {
-		log.Fatal("Extension is required")
+		renderWithError(w, t, "Extension is required")
 	}
 	size := r.FormValue("size")
 	if size == "" {
-		log.Fatal("Size is required")
+		renderWithError(w, t, "Size is required")
 	}
 	sizeInt, err := strconv.Atoi(size)
 	if err != nil {
-		log.Fatal("Failed to parse the size to float")
+		renderWithError(w, t, "Failed to parse the size to float")
 	}
 	byteType := r.FormValue("byteType")
 	if byteType == "" {
-		log.Fatal("Byte type is required")
+		renderWithError(w, t, "Byte type is required")
 	}
 	var divider int
 	switch byteType {
@@ -68,10 +73,18 @@ func renderTemplate(w http.ResponseWriter, r *http.Request) {
 
 	buf := make([]byte, sizeInt/2*divider)
 
-	t.Execute(w, FormResponse{
+	t.Execute(w, FormSuccessResponse{
 		true,
 		buf,
 		filename,
 		extension,
+	})
+}
+
+func renderWithError(w http.ResponseWriter, t *template.Template, message string) {
+	log.Fatal(message)
+	t.Execute(w, FormErrorResponse{
+		true,
+		message,
 	})
 }
