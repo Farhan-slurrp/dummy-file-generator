@@ -8,8 +8,6 @@ import (
 	"os"
 	"strconv"
 	"text/template"
-
-	"github.com/joho/godotenv"
 )
 
 type FormSuccessResponse struct {
@@ -27,16 +25,8 @@ type FormErrorResponse struct {
 func main() {
 	http.HandleFunc("/", renderTemplate)
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-	err = http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
+	if port := "8080" 
+	err := http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
 
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("Server closed\n")
