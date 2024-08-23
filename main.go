@@ -25,8 +25,8 @@ type FormErrorResponse struct {
 func main() {
 	http.HandleFunc("/", renderTemplate)
 
-	if port := "8080" 
-	err := http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
+	port := 8080
+	err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("Server closed\n")
